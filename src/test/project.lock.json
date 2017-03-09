@@ -2734,14 +2734,6 @@
         "runtime": {
           "lib/dotnet/xunit.runner.utility.dotnet.dll": {}
         }
-      },
-      "lib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v1.6",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "Neo4j.Driver": "1.1.0-m02"
-        }
       }
     }
   },
@@ -8048,17 +8040,14 @@
         "xunit.runner.utility.2.1.0.nupkg.sha512",
         "xunit.runner.utility.nuspec"
       ]
-    },
-    "lib/1.0.0": {
-      "type": "project",
-      "path": "../lib/project.json"
     }
   },
   "projectFileDependencyGroups": {
     "": [
+      "Neo4j.Driver >= 1.1.0-m02",
+      "Neocaster",
       "System.Runtime.Serialization.Primitives >= 4.3.0",
       "dotnet-test-xunit >= 1.0.0-rc2-192208-24",
-      "lib",
       "xunit >= 2.1.0"
     ],
     ".NETCoreApp,Version=v1.1": [

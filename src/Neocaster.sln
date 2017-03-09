@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A34907DF-958A-4E4C-8491-84CF303FD13E}"
+	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		global.json = global.json
+		License.txt = License.txt
+		NuGet.Config = NuGet.Config
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Neocaster", "lib\Neocaster.xproj", "{FAC24C3F-68F9-4247-A4B9-21D487E99275}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Neocaster.Tests", "test\Neocaster.Tests.xproj", "{052C0817-DB26-4925-8929-8C5E42D148D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAC24C3F-68F9-4247-A4B9-21D487E99275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC24C3F-68F9-4247-A4B9-21D487E99275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC24C3F-68F9-4247-A4B9-21D487E99275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC24C3F-68F9-4247-A4B9-21D487E99275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{052C0817-DB26-4925-8929-8C5E42D148D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{052C0817-DB26-4925-8929-8C5E42D148D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{052C0817-DB26-4925-8929-8C5E42D148D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{052C0817-DB26-4925-8929-8C5E42D148D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -7,7 +7,8 @@
     "System.Runtime.Serialization.Primitives": "4.3.0",
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-192208-24",
-    "lib": {
+    "Neo4j.Driver": "1.1.0-m02",
+    "Neocaster": {
       "target": "project"
     }
   },
