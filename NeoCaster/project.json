@@ -5,11 +5,16 @@
   },
   "dependencies": {
      "NETStandard.Library": "1.6.0",
-     "Neo4j.Driver": "1.1.2"
+     "Neo4j.Driver": "1.1.2",
+     "Sigil": "4.7.0"
   },
   "frameworks": {
     "netstandard1.6": {
-      "imports": "dnxcore50"
+      "imports": "dnxcore50",
+      "dependencies": {
+          "System.Reflection.Emit": "4.0.1",
+          "System.Reflection.Emit.Lightweight": "4.0.1"
+      }
     }
   }
 }
