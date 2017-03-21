@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using Neo4j.Driver.V1;
+using NeoCaster.Tests.DryRun;
 using NeoCaster.Tests.WithDBInfrastructure;
+using Shouldly;
 using Xunit;
 
 namespace NeoCaster.Tests
@@ -20,6 +24,14 @@ namespace NeoCaster.Tests
         {
             var idOfNode = _ctx.RunScenario<OneReasonablyComplexNode>().IdOfNode;
             Assert.NotEqual(0, idOfNode);
+        }
+
+        [Fact]
+        public void AccessEmbeddedStatementResult()
+        {
+            var r = StatementResultLoader.LoadFromEmbedded("SinglePerson");
+            r.ShouldNotBeNull();
+            r.First().As<IRecord>()["p"].As<INode>().Properties["name"].ShouldBe("Arthur");
         }
     }
 }
