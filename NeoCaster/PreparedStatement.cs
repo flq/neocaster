@@ -188,8 +188,8 @@ namespace NeoCaster
 
         static PreparedStatement()
         {
-            RecordValuesAccessor = typeof(IRecord).GetProperty("Values").GetMethod;
-            NodePropertiesAccessor = typeof(IEntity).GetProperty("Properties").GetMethod;
+            RecordValuesAccessor = typeof(IRecord).GetProperty(nameof(IRecord.Values)).GetMethod;
+            NodePropertiesAccessor = typeof(IEntity).GetProperty(nameof(IEntity.Properties)).GetMethod;
             GetDictionaryItem = typeof(IReadOnlyDictionary<string, object>)
                 .GetProperties()
                 .First(p => p.GetIndexParameters().Length > 0 &&

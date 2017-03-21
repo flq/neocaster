@@ -1,0 +1,8 @@
+solution: NeoCaster.sln
+dist: trusty
+sudo: required
+language: csharp
+mono: none
+dotnet: 1.0.1
+script:
+  - ./build.sh --quiet verify
