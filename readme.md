@@ -1,6 +1,6 @@
 ## NeoCaster - Load Neo4J Data into .NET Objects quick and easy.
 
-[![Build Status](https://travis-ci.org/flq/neocaster.svg?branch=master)](https://travis-ci.org/flq/neocaster)
+[![Build status](https://ci.appveyor.com/api/projects/status/mm2enoy06ce4w07v?svg=true)](https://ci.appveyor.com/project/flq/neocaster)
 
 At the time of this writing only the basic [Neo4J-Driver](https://neo4j.com/developer/dotnet/) exists in the .NET space. 
 I thought that it is kind of sad that only JVM-developers would have good programmatic access to the fun that writing
