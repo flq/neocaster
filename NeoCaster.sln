@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NeoCaster", "NeoCaster/NeoCaster.xproj", "{F99FC4C1-EBC7-4207-874D-C427243F1548}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoCaster", "NeoCaster\NeoCaster.csproj", "{F99FC4C1-EBC7-4207-874D-C427243F1548}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NeoCaster.Tests", "NeoCaster.Tests\NeoCaster.Tests.xproj", "{82821AA8-8441-4A47-8EB3-5CCBA0CCF708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoCaster.Tests", "NeoCaster.Tests\NeoCaster.Tests.csproj", "{82821AA8-8441-4A47-8EB3-5CCBA0CCF708}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A010CF30-998B-4CF9-BBF4-931D9A664BF5}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCD1BA09-27BC-4B2B-8ED5-E0BF7B3C44FA}
 	EndGlobalSection
 EndGlobal

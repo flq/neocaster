@@ -1,5 +1,7 @@
 .DS_Store
+.vs
 packages
 .idea
 bin
 obj
+*.user

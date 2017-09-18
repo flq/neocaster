@@ -20,18 +20,18 @@ namespace NeoCaster.Tests.WithDBInfrastructure
             {
                 WithSession(s => s.Run("MATCH (n) DETACH DELETE n"));
             }
-            catch (AuthenticationException x)
+            catch (AuthenticationException)
             {
-                Assert.True(false, "Auth failed. Tests assume that the pwd of the neo4j user is 'password'");
+                Assert.True(false, "Auth failed. Tests assume that you run the db with no auth");
             }
-            catch (Exception x)
+            catch (ServiceUnavailableException x)
             {
-                Assert.True(false, x.InnerException?.Message ?? x.Message);
+                throw new InvalidOperationException("It looks like there is no neo4j DB running at localhost:7687", x);
             }
         }
 
         public IDriver GetDriver() {
-           return _driver ?? (_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "password")));
+           return _driver ?? (_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.None));
         }
 
         public void WithSession(Action<ISession> sessionAction)

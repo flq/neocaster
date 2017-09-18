@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="StatementResults\SinglePerson.json" />
+    <None Remove="StatementResults\SinglePersonAsRow.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="StatementResults\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="Neo4j.Driver" Version="1.5.0-beta01" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Shouldly" Version="3.0.0-beta0003" />
+    <PackageReference Include="Sigil" Version="4.7.0" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeoCaster\NeoCaster.csproj" />
+  </ItemGroup>
+
+</Project>

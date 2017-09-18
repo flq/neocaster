@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using Neo4j.Driver.V1;
 using NeoCaster.Tests.DryRun;
 using NeoCaster.Tests.WithDBInfrastructure;
@@ -8,7 +9,7 @@ using Xunit;
 namespace NeoCaster.Tests
 {
 
-    [Collection(nameof(WetRun))]
+    [Collection(nameof(WetRun)), Category("WithNeo")]
     public class BootstrapOfStatementResultSimulation
     {
         private readonly Neo4JTestingContext _ctx;
