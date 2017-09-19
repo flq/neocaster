@@ -1,6 +1,7 @@
 [
-    {
-        "name": "Arthur",
-        "dob": 12312333
-    }
+  {
+    "name": "Arthur",
+    "dob": 12312333,
+    "doesExistOnRecord":  true 
+  }
 ]

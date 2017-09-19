@@ -28,8 +28,8 @@ namespace NeoCaster
 
             return _mapStrategy.Map(record);
         }
-        
-        internal class MapStrategy
+
+        private class MapStrategy
         {
             private readonly Func<IRecord, TReturn> _mapMethod;
 
@@ -117,7 +117,7 @@ namespace NeoCaster
             }
         }
 
-        internal class PropertyMap
+        private class PropertyMap
         {
             public PropertyInfo Property { get; set; }
             public string RecordKey { get; set; }
@@ -138,9 +138,10 @@ namespace NeoCaster
             /// </summary>
             public static DictionaryLoad DirectlyFromRecord()
             {
+                // local = record.Values
                 return new DictionaryLoad((emit, local) =>
                 {
-                    emit.LoadArgument(0);
+                    emit.LoadArgument(0); // Since we emit a func taking a record, this is a record
                     emit.CallVirtual(RecordValuesAccessor);
                     emit.StoreLocal(local);
                 });
@@ -148,12 +149,15 @@ namespace NeoCaster
 
             /// <summary>
             /// All trivial properties are extracted from a single node contained in the record.
+            /// The emitted code puts a dictionary into a local to be used after a call to
+            /// <see cref="EmitLoad"/>.
             /// </summary>
             public static DictionaryLoad FromEmbeddedNode(string key)
             {
+                // local = ((IEntity)record.Values[key]).Properties
                 return new DictionaryLoad((emit, local) =>
                 {
-                    emit.LoadArgument(0);
+                    emit.LoadArgument(0); // Since we emit a func taking a record, this is a record
                     emit.CallVirtual(RecordValuesAccessor);
                     emit.LoadConstant(key);
                     emit.CallVirtual(GetDictionaryItem);
@@ -165,7 +169,8 @@ namespace NeoCaster
 
             /// <summary>
             /// Ensure that the correct dictionary is put into the local dictionary variable
-            /// such that accesses work from there
+            /// such that accesses work from there. This was done either in <see cref="FromEmbeddedNode"/>
+            /// or <see cref="DirectlyFromRecord"/>.
             /// </summary>
             public void EmitLoad(Emit<Func<IRecord, TReturn>> emit, Local dictionary)
             {
@@ -197,7 +202,7 @@ namespace NeoCaster
             TryGetValue = typeof(IReadOnlyDictionary<string, object>).GetMethod("TryGetValue");
         }
 
-        public PreparedStatement(Type returnType, string cypher, object parameters = null)
+        protected PreparedStatement(Type returnType, string cypher, object parameters = null)
         {
             _returnType = returnType;
             _cypher = cypher;

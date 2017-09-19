@@ -9,7 +9,7 @@ using Xunit;
 namespace NeoCaster.Tests
 {
 
-    [Collection(nameof(WetRun)), Category("WithNeo")]
+    [Collection(nameof(WetRun))]
     public class BootstrapOfStatementResultSimulation
     {
         private readonly Neo4JTestingContext _ctx;

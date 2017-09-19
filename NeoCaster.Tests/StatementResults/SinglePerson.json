@@ -1,11 +1,12 @@
 [
-    {
-        "p": {
-            "$id": 1,
-            "$type": "node",
-            "$labels": ["Person"],
-            "name": "Arthur",
-            "dob": 12312333
-        }
+  {
+    "p": {
+      "$id": 1,
+      "$type": "node",
+      "$labels": [ "Person" ],
+      "name": "Arthur",
+      "dob": 12312333,
+      "doesExistOnRecord": true 
     }
+  }
 ]

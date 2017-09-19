@@ -8,16 +8,17 @@ namespace NeoCaster.Tests.DryRunTests
 {
     public class QueryTests
     {
-        [Theory, ClassData(typeof(QueryTestCases))]
+        [Theory, ClassData(typeof(QueryTestCases)), Trait("Category", "Unit")]
         public void Query_SingleNode_AsNode_Or_Properties(string embeddedReturn, string cypherQuery)
         {
             var s = new DryRunSession(_ => StatementResultLoader.LoadFromEmbedded(embeddedReturn));
             var result = s.Query<Person>(cypherQuery).ToList();
             result.Count.ShouldBe(1);
-            result[0].Name.ShouldBe("Arthur");
-            result[0].Dob.ShouldBe(12312333);
-            result[0].DoesNotExistOnRecord.ShouldBeNull();
-
+            var person = result[0];
+            person.Name.ShouldBe("Arthur");
+            person.Dob.ShouldBe(12312333);
+            person.DoesNotExistOnRecord.ShouldBeNull();
+            person.DoesExistOnRecord.ShouldBe(true);
         }
 
         public class QueryTestCases : AbstractClassData
