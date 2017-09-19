@@ -5,7 +5,7 @@ using System.Linq;
 using Neo4j.Driver.V1;
 using Newtonsoft.Json.Linq;
 
-namespace NeoCaster.Tests.DryRun
+namespace NeoCaster.Tests.DryRunInfrastructure
 {
     internal class DryStatementResult : IStatementResult
     {

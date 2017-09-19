@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Neo4j.Driver.V1;
-using NeoCaster.Tests.DryRun;
+using NeoCaster.Tests.DryRunInfrastructure;
 using NeoCaster.Tests.WithDBInfrastructure;
 using Shouldly;
 using Xunit;

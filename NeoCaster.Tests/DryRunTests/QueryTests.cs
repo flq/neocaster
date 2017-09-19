@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using NeoCaster.Tests.DryRun;
+using NeoCaster.Tests.DryRunInfrastructure;
 using Shouldly;
 using Xunit;
 
-namespace NeoCaster.Tests
+namespace NeoCaster.Tests.DryRunTests
 {
     public class QueryTests
     {
         [Theory, ClassData(typeof(QueryTestCases))]
-        public void Query_Person_Tests(string embeddedReturn, string cypherQuery)
+        public void Query_SingleNode_AsNode_Or_Properties(string embeddedReturn, string cypherQuery)
         {
             var s = new DryRunSession(_ => StatementResultLoader.LoadFromEmbedded(embeddedReturn));
             var result = s.Query<Person>(cypherQuery).ToList();
@@ -19,6 +17,7 @@ namespace NeoCaster.Tests
             result[0].Name.ShouldBe("Arthur");
             result[0].Dob.ShouldBe(12312333);
             result[0].DoesNotExistOnRecord.ShouldBeNull();
+
         }
 
         public class QueryTestCases : AbstractClassData
@@ -31,13 +30,11 @@ namespace NeoCaster.Tests
         }
     }
 
-
-
-
     public class Person
     {
         public string Name { get; set; }
         public long Dob { get; set; }
         public bool? DoesNotExistOnRecord { get; set; }
+        public bool DoesExistOnRecord { get; set; }
     }
 }

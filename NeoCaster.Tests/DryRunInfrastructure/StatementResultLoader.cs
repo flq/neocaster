@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Neo4j.Driver.V1;
 
-namespace NeoCaster.Tests.DryRun
+namespace NeoCaster.Tests.DryRunInfrastructure
 {
     public static class StatementResultLoader
     {

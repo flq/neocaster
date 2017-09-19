@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Neo4j.Driver.V1;
 
-namespace NeoCaster.Tests.DryRun
+namespace NeoCaster.Tests.DryRunInfrastructure
 {
+    /// <inheritdoc />
     /// <summary>
     /// check docs
     /// https://github.com/neo4j/neo4j-dotnet-driver/wiki/1.2-Driver-documentation

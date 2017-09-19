@@ -3,7 +3,7 @@ using Neo4j.Driver.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace NeoCaster.Tests.DryRun
+namespace NeoCaster.Tests.DryRunInfrastructure
 {
     /// <summary>
     /// Construct an <see cref="IStatementResult"/> instance

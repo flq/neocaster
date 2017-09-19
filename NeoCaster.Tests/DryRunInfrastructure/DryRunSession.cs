@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Neo4j.Driver.V1;
 
-namespace NeoCaster.Tests.DryRun
+namespace NeoCaster.Tests.DryRunInfrastructure
 {
     public class DryRunSession : ISession
     {
