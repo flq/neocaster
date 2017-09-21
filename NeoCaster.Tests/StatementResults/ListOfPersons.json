@@ -1,0 +1,29 @@
+[
+  {
+    "p": {
+      "$id": 1,
+      "$type": "node",
+      "$labels": [ "Person" ],
+      "name": "Arthur",
+      "dob": 1200
+    }
+  },
+  {
+    "p": {
+      "$id": 2,
+      "$type": "node",
+      "$labels": [ "Person" ],
+      "name": "Parsifal",
+      "dob": 1201
+    }
+  },
+  {
+    "p": {
+      "$id": 3,
+      "$type": "node",
+      "$labels": [ "Person" ],
+      "name": "Merlin",
+      "dob": 1202
+    }
+  }
+]

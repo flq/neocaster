@@ -21,6 +21,19 @@ namespace NeoCaster.Tests.DryRunTests
             person.DoesExistOnRecord.ShouldBe(true);
         }
 
+        [Fact]
+        public void Query_list_of_persons()
+        {
+            void AssertName(Person p, string name) => p.Name.ShouldBe(name);
+
+            var s = new DryRunSession(_ => StatementResultLoader.LoadFromEmbedded("ListOfPersons"));
+            var result = s.Query<Person>("CYPHER QUERY RETURN many people").ToList();
+            result.Count.ShouldBe(3);
+            AssertName(result[0], "Arthur");
+            AssertName(result[1], "Parsifal");
+            AssertName(result[2], "Merlin");
+        }
+
         public class QueryTestCases : AbstractClassData
         {
             protected override IEnumerator<object[]> TestData()

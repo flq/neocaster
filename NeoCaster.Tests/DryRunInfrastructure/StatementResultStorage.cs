@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Neo4j.Driver.V1;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -37,6 +38,18 @@ namespace NeoCaster.Tests.DryRunInfrastructure
         public IStatementResult ProduceDryResult()
         {
             return new DryStatementResult(DryStatementResultSkeleton);
+        }
+
+        /// <summary>
+        /// Use this in preparation to create a new embedded resource by storing the captured StatementResult.  
+        /// The default path is your desktop.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global - This is used sporadically to extract a statementresult from a running neo4j
+        public void SaveRepresentation(string path = null)
+        {
+            path = Path.Combine(path ?? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "new.json");
+            using (var writeTarget = new JsonTextWriter(new StreamWriter(File.OpenWrite(path))))
+              DryStatementResultSkeleton.WriteTo(writeTarget);
         }
 
         private JArray DryStatementResultSkeleton

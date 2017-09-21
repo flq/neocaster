@@ -23,6 +23,11 @@ This library is heavily inspired by [Dapper](https://github.com/StackExchange/Da
 
 ## Contributing
 
+### Requirements
+
+Development has been tested with __Visual Studio 2017__ so far. Also, it is advised to install the .NET core SDK v2.0, 
+which you can [download here](https://www.microsoft.com/net/download/core).
+
 ### Using the tests
 
 A number of tests depend on a running neo4j instance. Neocaster recommends using a docker container for tests as

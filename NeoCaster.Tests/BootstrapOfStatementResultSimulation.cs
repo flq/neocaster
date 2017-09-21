@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Neo4j.Driver.V1;
 using NeoCaster.Tests.DryRunInfrastructure;
@@ -22,22 +23,29 @@ namespace NeoCaster.Tests
         }
 
         [Fact]
-        public void Comparison_single_node()
+        public void Comparison_two_nodes()
         {
             _ctx.RunScenario<TwoConnectedNodes>();
             var result = _ctx.RunStatement("MATCH (p:Person)-[:LIVES]->(a) RETURN p, a").ToList();
             result.Render(_stmntStorage.Sink);
+            var zipRecordsForComparison = result.Zip(_stmntStorage.ProduceDryResult(), (real, dry) => (real, dry));
 
-            var zipRecordsForComparison = result.Zip(_stmntStorage.ProduceDryResult(), (real, dry) => new {real, dry});
+            void AssertValues(string key, ValueTuple<IRecord,IRecord> nodes, string label)
+            {
+                var (real, dry) = nodes;
+                dry.Keys.SequenceEqual(real.Keys).ShouldBeTrue();
+                var dryNode = dry[key].As<INode>();
+                var realNode = real[key].As<INode>();
+                dryNode.Id.ShouldBe(realNode.Id);
+                dryNode.Properties["name"].ShouldBe(realNode.Properties["name"]);
+                dryNode.Labels.ShouldContain(label);
+            }
 
             foreach (var pair in zipRecordsForComparison)
             {
-                pair.dry.Keys.SequenceEqual(pair.real.Keys).ShouldBeTrue();
-                pair.dry["p"].ShouldBeAssignableTo<INode>();
-                var dryNode = pair.dry["p"].As<INode>();
-                dryNode.Id.ShouldBe(pair.real["p"].As<INode>().Id);
-                dryNode.Properties["name"].ShouldBe("David Backend");
-                dryNode.Labels.ShouldContain("Person");
+                AssertValues("p", pair, "Person");
+                AssertValues("a", pair, "City");
+
             }
         }
 
