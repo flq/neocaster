@@ -17,69 +17,92 @@ namespace NeoCaster
             writer.WriteLine("[");
             foreach(var r in result)
             {
-                RenderRecord(r, writer);
+                writer.RenderRecord(r);
             }
             writer.WriteLine("]");
             writer.Flush();
         }
 
-        private static void RenderRecord(IRecord record, TextWriter writer)
+        private static void RenderRecord(this TextWriter writer, IRecord record)
         {
             writer.WriteLine("{");
             foreach(var r in record.Values)
             {
                 writer.Write($"  {r.Key.Quotify()}: ");
-                RenderValue(r.Value, writer);
+                writer.RenderValue(r.Value);
             }
             writer.WriteLine("},");
         }
 
-        private static void RenderValue(object val, TextWriter writer)
+        private static void RenderValue(this TextWriter writer, object val)
         {
-            if (val is INode)
+            switch (val)
             {
-                var n = val.As<INode>();
-                RenderNode(n, writer);
-            }
-            else if (val is long)
-            {
-                writer.WriteLine(val + ", ");
-            }
-            else if (val is bool)
-            {
-                writer.WriteLine(val.ToString().ToLowerInvariant() + ", ");
-            }
-            else if (val is string)
-            {
-                writer.WriteLine($"{val.ToString().Quotify()}, ");
-            }
-            else if (val == null)
-            {
-                writer.WriteLine("null, ");
-            }
-            else
-            {
-                writer.Write($"\"{val.GetType()?.Name ?? "NULL?!"}-{val}\", ");
+                case INode n:
+                    RenderNode(writer, n);
+                    break;
+                case IRelationship r:
+                    RenderRelationship(writer, r);
+                    break;
+                case long _:
+                    writer.WriteLine($"{val}, ");
+                    break;
+                case bool _:
+                    writer.WriteLine($"{val.ToString().ToLowerInvariant()}, ");
+                    break;
+                case string _:
+                    writer.WriteLine($"{val.ToString().Quotify()}, ");
+                    break;
+                case null:
+                    writer.WriteLine("null, ");
+                    break;
+                default:
+                    writer.Write($"\"{val.GetType()?.Name ?? "NULL?!"}-{val}\", ");
+                    break;
             }
         }
 
-        private static void RenderNode(INode node, TextWriter writer)
+        private static void RenderRelationship(TextWriter writer, IRelationship r)
         {
             writer.WriteLine("{");
-            writer.WriteLine($"{indentInsideRecord}{"$id".Quotify()}: {node.Id},");
+            RenderId(writer, r);
+            writer.WriteLine($"{indentInsideRecord}{"$type".Quotify()}: {"relationship".Quotify()},");
+            writer.WriteLine($"{indentInsideRecord}{"$relType".Quotify()}: {r.Type.Quotify()},");
+            writer.WriteLine($"{indentInsideRecord}{"$startNodeId".Quotify()}: {r.StartNodeId},");
+            writer.WriteLine($"{indentInsideRecord}{"$endNodeId".Quotify()}: {r.EndNodeId},");
+            RenderProperties(writer, r.Properties);
+            writer.WriteLine("  },");
+        }
+
+        private static void RenderNode(TextWriter writer, INode node)
+        {
+            writer.WriteLine("{");
+            writer.RenderId(node);
             writer.WriteLine($"{indentInsideRecord}{"$type".Quotify()}: {"node".Quotify()},");
             writer.WriteLine($"{indentInsideRecord}{"$labels".Quotify()}: [{string.Join(",", node.Labels.Select(l => l.Quotify()))}],");
-            foreach (var kv in node.Properties)
+            RenderProperties(writer, node.Properties);
+            writer.WriteLine("  },");
+        }
+
+        private static void RenderId(this TextWriter writer, IEntity node)
+        {
+            writer.WriteLine($"{indentInsideRecord}{"$id".Quotify()}: {node.Id},");
+        }
+
+        private static void RenderProperties(TextWriter writer, IReadOnlyDictionary<string, object> props)
+        {
+            foreach (var kv in props)
             {
                 writer.WriteLine($"{indentInsideRecord}\"{kv.Key}\": {RenderPrimitive(kv.Value)}, ");
             }
-            writer.WriteLine("  },");
         }
 
         private static string RenderPrimitive(object p)
         {
             if (p is string)
                 return p.ToString().Quotify();
+            if (p is long)
+                return p.ToString();
             if (p is bool)
                 return p.ToString().ToLowerInvariant();
             return p.ToString();

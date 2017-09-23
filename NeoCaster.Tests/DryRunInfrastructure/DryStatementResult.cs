@@ -39,17 +39,13 @@ namespace NeoCaster.Tests.DryRunInfrastructure
             throw new NotSupportedException("Not for now");
         }
 
-        public IReadOnlyList<string> Keys
-        {
-            get { throw new NotSupportedException("Not for now"); }
-        }
+        public IReadOnlyList<string> Keys => throw new NotSupportedException("Not for now");
 
-        public IResultSummary Summary { get { throw new NotSupportedException("Not for now"); } }
+        public IResultSummary Summary => throw new NotSupportedException("Not for now");
 
         private IRecord ConvertToRecord(JToken arg)
         {
             return new DryRecord(arg);
-
         }
     }
 
@@ -80,24 +76,46 @@ namespace NeoCaster.Tests.DryRunInfrastructure
 
     internal class DryNode : INode
     {
-        private readonly IReadOnlyDictionary<string, object> _contents;
-
         public DryNode(JObject jObject)
         {
             IDictionary<string, JToken> tmp = jObject;
-            _contents = tmp.ToDictionary(k => k.Key, v => v.Value.ConvertToNetType());
-            Id = (long)_contents["$id"];
-            Labels = ((object[])_contents["$labels"]).Cast<string>().ToList();
+            Properties = tmp.ToDictionary(k => k.Key, v => v.Value.ConvertToNetType());
+            Id = (long)Properties["$id"];
+            Labels = ((object[])Properties["$labels"]).Cast<string>().ToList();
         }
 
-        public object this[string key] => _contents.ContainsKey(key) ? _contents[key] : null;
+        public object this[string key] => Properties.ContainsKey(key) ? Properties[key] : null;
 
-        public IReadOnlyDictionary<string, object> Properties => _contents;
+        public IReadOnlyDictionary<string, object> Properties { get; }
 
         public long Id { get; }
 
         public bool Equals(INode other) => Id.Equals(other.Id);
 
         public IReadOnlyList<string> Labels { get; }
+    }
+
+    internal class DryRelationship : IRelationship
+    {
+
+        public DryRelationship(JObject jObject)
+        {
+            IDictionary<string, JToken> tmp = jObject;
+            Properties = tmp.ToDictionary(k => k.Key, v => v.Value.ConvertToNetType());
+            Id = (long)Properties["$id"];
+            Type = (string)Properties["$relType"];
+            StartNodeId = (long)Properties["$startNodeId"];
+            EndNodeId = (long)Properties["$endNodeId"];
+        }
+
+        public object this[string key] => Properties.ContainsKey(key) ? Properties[key] : null;
+        public long Id { get; }
+        public IReadOnlyDictionary<string, object> Properties { get; }
+
+        public bool Equals(IRelationship other) => Id.Equals(other.Id);
+
+        public string Type { get; }
+        public long StartNodeId { get; }
+        public long EndNodeId { get; }
     }
 }

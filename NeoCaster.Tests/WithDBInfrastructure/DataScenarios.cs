@@ -25,7 +25,7 @@ namespace NeoCaster.Tests.WithDBInfrastructure
         public void Execute(ISession session)
         {
             var result = session.Run(
-                "CREATE (p:Person { name: 'David Backend' }), (a:City { name: 'Mulhouse' }), (p)-[:LIVES]->(a) RETURN id(p) AS id");
+                "CREATE (p:Person { name: 'David Backend' }), (a:City { name: 'Mulhouse' }), (p)-[:LIVES { since: 1245145 }]->(a) RETURN id(p) AS id");
             var stuff = result.ToList();
             IdOfNode = stuff.First()["id"].As<int>();
         }

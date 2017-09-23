@@ -50,6 +50,22 @@ namespace NeoCaster.Tests
         }
 
         [Fact]
+        public void Two_nodes_with_relationship()
+        {
+            _ctx.RunScenario<TwoConnectedNodes>();
+            var result = _ctx.RunStatement("MATCH (p:Person)-[l:LIVES]->(a) RETURN p, l, a").ToList();
+            result.Render(_stmntStorage.Sink);
+            var zipRecordsForComparison = result.Zip(_stmntStorage.ProduceDryResult(), (real, dry) => (real, dry));
+            var (r, d) = zipRecordsForComparison.First();
+            var realRel = r["l"].As<IRelationship>();
+            var dryRel = d["l"].As<IRelationship>();
+            dryRel.StartNodeId.ShouldBe(realRel.StartNodeId);
+            dryRel.EndNodeId.ShouldBe(realRel.EndNodeId);
+            dryRel.Type.ShouldBe(realRel.Type);
+            dryRel["since"].ShouldBe(realRel["since"]);
+        }
+
+        [Fact]
         public void Comparison_list()
         {
             _ctx.RunScenario<CollectionOfDataPoints>();
