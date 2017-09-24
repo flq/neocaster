@@ -56,6 +56,7 @@ namespace NeoCaster.Tests
             var result = _ctx.RunStatement("MATCH (p:Person)-[l:LIVES]->(a) RETURN p, l, a").ToList();
             result.Render(_stmntStorage.Sink);
             var zipRecordsForComparison = result.Zip(_stmntStorage.ProduceDryResult(), (real, dry) => (real, dry));
+
             var (r, d) = zipRecordsForComparison.First();
             var realRel = r["l"].As<IRelationship>();
             var dryRel = d["l"].As<IRelationship>();
@@ -82,6 +83,21 @@ namespace NeoCaster.Tests
                 pair.dry["random"].ShouldBe(pair.real["random"]);
             }
         }
+
+        [Fact]
+        public void assert_multirow_result_produces_additional_equal_nodes()
+        {
+            var multiRow = "MATCH (p:Person)-[r:OWNS]->(n) WHERE id(p) = {id} RETURN p, r, n";
+            var id = _ctx.RunScenario<OneToNNodesAndRelationships>().IdOfPerson;
+            var result = _ctx.RunStatement(multiRow, new { id }).ToList();
+
+            // not reusing reference + raw output in neo browser suggests
+            // that the node multiple times.
+            result[0]["p"].ShouldNotBeSameAs(result[1]["p"]); 
+            result[0]["p"].ShouldBe(result[1]["p"]); //Nodes implement equality based on id
+
+        }
+
 
     }
 }

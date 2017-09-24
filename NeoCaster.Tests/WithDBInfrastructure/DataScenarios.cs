@@ -33,6 +33,20 @@ namespace NeoCaster.Tests.WithDBInfrastructure
         public int IdOfNode { get; private set; }
     }
 
+    public class OneToNNodesAndRelationships : IScenario
+    {
+        public void Execute(ISession session)
+        {
+            var result = session.Run(@"
+                CREATE (p:Person { name: 'Joe' })-[:OWNS { since: 123  }]->(:Product { name: 'iPhone'  })
+                CREATE (p)-[:OWNS { since: 156 }]->(:Product { name: 'iPad'  })
+                RETURN id(p) as id");
+            IdOfPerson = result.First()["id"].As<int>();
+        }
+
+        public int IdOfPerson { get; private set; }
+    }
+
     public class CollectionOfDataPoints : IScenario
     {
         public void Execute(ISession session)

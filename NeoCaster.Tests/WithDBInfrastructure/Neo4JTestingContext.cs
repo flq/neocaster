@@ -59,6 +59,16 @@ namespace NeoCaster.Tests.WithDBInfrastructure
             return returnValue;
         }
 
+        public IStatementResult RunStatement(string cypher, object parameters)
+        {
+            IStatementResult returnValue = null;
+            WithSession(s =>
+            {
+                returnValue = s.Run(cypher, parameters);
+            });
+            return returnValue;
+        }
+
         public void Dispose()
         {
             _driver?.Dispose();
