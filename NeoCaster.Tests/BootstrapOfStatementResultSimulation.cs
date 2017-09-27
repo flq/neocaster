@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 using Neo4j.Driver.V1;
 using NeoCaster.Tests.DryRunInfrastructure;
@@ -96,6 +96,32 @@ namespace NeoCaster.Tests
             result[0]["p"].ShouldNotBeSameAs(result[1]["p"]); 
             result[0]["p"].ShouldBe(result[1]["p"]); //Nodes implement equality based on id
 
+        }
+
+        [Fact]
+        public void Compare_asymetric_resultset_simple()
+        {
+            const string singleRow = @"MATCH (p:Person)-[r:OWNS]->(n) 
+            WITH p, collect(n) as products
+            WHERE id(p) = {id} RETURN p, products";
+
+            var id = _ctx.RunScenario<OneToNNodesAndRelationships>().IdOfPerson;
+            var result = _ctx.RunStatement(singleRow, new { id }).ToList();
+            result.Render(_stmntStorage.Sink);
+            var zip = result.Zip(_stmntStorage.ProduceDryResult(), (real, dry) => (real, dry)).ToList();
+            var (r, d) = zip[0];
+            var realPerson = r.Values["p"].As<INode>();
+            var dryPerson = d.Values["p"].As<INode>();
+            dryPerson.Labels[0].ShouldBe(realPerson.Labels[0]);
+            dryPerson.Properties["name"].ShouldBe(realPerson.Properties["name"]);
+
+            var realProducts = r.Values["products"].As<IList<object>>().OfType<INode>().ToList();
+            var dryProducts = d.Values["products"].As<IList<object>>().OfType<INode>().ToList();
+
+            dryProducts.Count.ShouldBe(2);
+            dryProducts[0].Labels[0].ShouldBe(realProducts[0].Labels[0]);
+            dryProducts[0].Properties["name"].ShouldBe(realProducts[0].Properties["name"]);
+            dryProducts[1].Properties["name"].ShouldBe(realProducts[1].Properties["name"]);
         }
 
 

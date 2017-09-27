@@ -44,6 +44,11 @@ namespace NeoCaster
                 case IRelationship r:
                     RenderRelationship(writer, r);
                     break;
+                case IList<object> l:
+                    writer.Write("[");
+                    foreach (var o in l) writer.RenderValue(o);
+                    writer.Write("]");
+                    break;
                 case long _:
                     writer.WriteLine($"{val}, ");
                     break;

@@ -44,12 +44,22 @@ namespace NeoCaster.Tests.DryRunInfrastructure
         /// Use this in preparation to create a new embedded resource by storing the captured StatementResult.  
         /// The default path is your desktop.
         /// </summary>
+        /// <param name="path">Override the default path of desktop/new.json</param>
+        /// <param name="storeFromParsedJson">Store by taking the json structure and save it. If false, it will write the raw stream. 
+        /// This may be helpful if there are errors in the rendered output of the statement result.</param>
         // ReSharper disable once UnusedMember.Global - This is used sporadically to extract a statementresult from a running neo4j
-        public void SaveRepresentation(string path = null)
+        public void SaveRepresentation(string path = null, bool storeFromParsedJson = true)
         {
             path = Path.Combine(path ?? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "new.json");
-            using (var writeTarget = new JsonTextWriter(new StreamWriter(File.OpenWrite(path))))
-              DryStatementResultSkeleton.WriteTo(writeTarget);
+            if (storeFromParsedJson)
+                using (var writeTarget = new JsonTextWriter(new StreamWriter(File.OpenWrite(path))))
+                  DryStatementResultSkeleton.WriteTo(writeTarget);
+            else
+                using (var targetStream = File.OpenWrite(path))
+                {
+                    _memoryStream.Seek(0, SeekOrigin.Begin);
+                    _memoryStream.CopyTo(targetStream);
+                }
         }
 
         private JArray DryStatementResultSkeleton
