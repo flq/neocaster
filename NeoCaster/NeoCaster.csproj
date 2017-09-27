@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Neo4j.Driver" Version="1.5.0-beta01" />
+    <PackageReference Include="Neo4j.Driver" Version="1.5.0-rc1" />
     <PackageReference Include="Sigil" Version="4.7.0" />
   </ItemGroup>
 

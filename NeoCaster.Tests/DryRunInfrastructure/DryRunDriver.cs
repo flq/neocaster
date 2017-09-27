@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Neo4j.Driver.V1;
 
 namespace NeoCaster.Tests.DryRunInfrastructure
@@ -53,6 +54,16 @@ namespace NeoCaster.Tests.DryRunInfrastructure
         {
             CheckDisposed();
             return new DryRunSession(bookmarks.FirstOrDefault());
+        }
+
+        public void Close()
+        {
+            Dispose();
+        }
+
+        public Task CloseAsync()
+        {
+            return Task.Run(() => Dispose());
         }
 
         public void Dispose()
