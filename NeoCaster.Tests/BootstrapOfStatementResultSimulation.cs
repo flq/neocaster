@@ -10,19 +10,19 @@ using Xunit;
 namespace NeoCaster.Tests
 {
 
-    [Collection(nameof(WetRun))]
+    [Collection(nameof(IntegrationRun))]
     public class BootstrapOfStatementResultSimulation
     {
-        private readonly Neo4JTestingContext _ctx;
+        private readonly Neo4JIntegrationTesting _ctx;
         private readonly StatementResultStorage _stmntStorage;
 
-        public BootstrapOfStatementResultSimulation(Neo4JTestingContext ctx)
+        public BootstrapOfStatementResultSimulation(Neo4JIntegrationTesting ctx)
         {
             _ctx = ctx;
             _stmntStorage = new StatementResultStorage();
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void Comparison_two_nodes()
         {
             _ctx.RunScenario<TwoConnectedNodes>();
@@ -49,7 +49,7 @@ namespace NeoCaster.Tests
             }
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void Two_nodes_with_relationship()
         {
             _ctx.RunScenario<TwoConnectedNodes>();
@@ -66,7 +66,7 @@ namespace NeoCaster.Tests
             dryRel["since"].ShouldBe(realRel["since"]);
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void Comparison_list()
         {
             _ctx.RunScenario<CollectionOfDataPoints>();
@@ -84,7 +84,7 @@ namespace NeoCaster.Tests
             }
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void assert_multirow_result_produces_additional_equal_nodes()
         {
             var multiRow = "MATCH (p:Person)-[r:OWNS]->(n) WHERE id(p) = {id} RETURN p, r, n";
@@ -98,7 +98,7 @@ namespace NeoCaster.Tests
 
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void Compare_asymetric_resultset_simple()
         {
             const string singleRow = @"MATCH (p:Person)-[r:OWNS]->(n) 

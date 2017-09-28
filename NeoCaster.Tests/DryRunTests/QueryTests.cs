@@ -8,7 +8,7 @@ namespace NeoCaster.Tests.DryRunTests
 {
     public class QueryTests
     {
-        [Theory, ClassData(typeof(QueryTestCases)), Trait("Category", "Unit")]
+        [Theory, ClassData(typeof(QueryTestCases))]
         public void Query_SingleNode_AsNode_Or_Properties(string embeddedReturn, string cypherQuery)
         {
             var s = new DryRunSession(_ => StatementResultLoader.LoadFromEmbedded(embeddedReturn));

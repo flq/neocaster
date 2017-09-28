@@ -6,6 +6,10 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="StatementResults\SinglePerson.json" />
     <None Remove="StatementResults\SinglePersonAsRow.json" />
@@ -16,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170923-02" />
     <PackageReference Include="Neo4j.Driver" Version="1.5.0-rc1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

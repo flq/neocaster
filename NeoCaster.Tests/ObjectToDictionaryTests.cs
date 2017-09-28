@@ -6,7 +6,7 @@ namespace NeoCaster.Tests
     public class ObjectToDictionaryTests
     {
 
-        [Fact, Trait("Category", "Unit")]
+        [Fact]
         public void CanConvertAnonymousObjectToDictionary()
         {
             var o = new {FirstName = "Joe", Dob = 123456L, IsSingle = true};

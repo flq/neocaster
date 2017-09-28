@@ -7,17 +7,17 @@ using Xunit;
 
 namespace NeoCaster.Tests
 {
-    [Collection(nameof(WetRun))]
+    [Collection(nameof(IntegrationRun))]
     public class InfrastructureVerifications
     {
-        private readonly Neo4JTestingContext _ctx;
+        private readonly Neo4JIntegrationTesting _ctx;
 
-        public InfrastructureVerifications(Neo4JTestingContext ctx)
+        public InfrastructureVerifications(Neo4JIntegrationTesting ctx)
         {
             _ctx = ctx;
         }
 
-        [Fact]
+        [RequireNeoFact]
         public void RunAScenario()
         {
             var idOfNode = _ctx.RunScenario<OneReasonablyComplexNode>().IdOfNode;
